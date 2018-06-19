@@ -1,3 +1,4 @@
+import time
 #algorithm to find possible meeting times between two people
 def get_key(i):
     return i[0]
@@ -33,48 +34,55 @@ class Person:
         self.intervals = sorted(a,key=get_key,reverse=True)
         #maybe needed
         #self.intervals = self.merge_overlaps(self.intervals)
-        
-    
-file = open("./test.txt")
-meeting_times = [] 
-temp = []
-# file IO to read in data
-for l in file.readlines():
-    if len(l) > 1:
-        #print(l)
-        a = (int(l[:l.find(' ')]),int(l[l.find(' ')+1:]))
-        temp.append(a)
-    else:
-        
-        meeting_times.append(Person(temp))
-        temp = []
-meeting_times.append(Person(temp))
-#print(meeting_times[0].intervals,meeting_times[1].intervals)
-
 #lists are sorted in descending order by the first number
-#loops through second list until the current value being compared in the first list
-# cannot be overlapped by anything in the second list.
+#loops through second list until the current value being compared in the first list end number
+# is greater than the first lists end number
 #After takes one step back to the last value that overlaps with the previous
 #value in the first list, then steps forward in the first list and moves forward through the second list
-ind = 0
-compare = meeting_times[0].intervals
-i = 0
-while i < len(meeting_times[1].intervals) and ind < len(compare):
-    val = meeting_times[1].intervals[i]
-    last_val = False
-    overlap = overlaps(val,compare[ind])
-    if i == len(meeting_times[1].intervals)-1: 
-        ind+=1
-        i-=1
-        last_val = True
-        
-    if overlap[0] == -1 and not last_val:
-        ind+=1
-        if i != 0:
-            i-=1
-
-    if overlap[0] != -1:
-        print(overlap)
+def find_overlap(meeting_times):
+    #start = time.time()
+    ind = 0
+    compare = meeting_times[0].intervals
+    i = 0
+    last_overlap = 0
+    while i < len(meeting_times[1].intervals) and ind < len(compare):
+        val = meeting_times[1].intervals[i]
+        last_val = False
+        overlap = overlaps(val,compare[ind])
+        #print(ind,i,compare[ind],val)
+        if i == len(meeting_times[1].intervals)-1: 
+            ind+=1
+            i = last_overlap-1
+            last_val = True
+        if overlap[0] == -1 and not last_val  and val[1]<compare[ind][1]:
+            ind+=1
+            i = last_overlap-1
+        if overlap[0] != -1:
+            #print(ind,i,compare[ind],val,,overlap)
+            last_overlap = i
         i+=1
-    
+    #end = time.time()
+    return end-start
 
+def run():
+    file = open("./test.txt")
+    meeting_times = [] 
+    temp = []
+    tot_time = 0 
+    # file IO to read in data
+    for l in file.readlines():
+        if len(l) > 1:
+            #print(l)
+            a = (int(l[:l.find(' ')]),int(l[l.find(' ')+1:]))
+            temp.append(a)
+        else:
+            #tot_time = time.time()
+            meeting_times.append(Person(temp))
+            tot_time = time.time()-tot_time
+            temp = []
+    # start = time.time()
+    # meeting_times.append(Person(temp))
+    # tot_time = time.time()-start
+    # tot_time+=find_overlap(meeting_times)
+    return tot_time
+#print(meeting_times[0].intervals,meeting_times[1].intervals)
