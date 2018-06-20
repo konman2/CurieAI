@@ -8,7 +8,7 @@ def overlaps(a,b,max_overlap = False):
     min_end = min(a[1],b[1])
     max_beg = max(a[0],b[0])
     min_beg = min(a[0],b[0])
-    if max_beg < min_end and max_end > max_beg:
+    if max_beg <= min_end and max_end > max_beg:
         if not max_overlap:
             return(max_beg,min_end)
         return (min_beg,max_end)
@@ -40,7 +40,7 @@ class Person:
 #After takes one step back to the last value that overlaps with the previous
 #value in the first list, then steps forward in the first list and moves forward through the second list
 def find_overlap(meeting_times):
-    #start = time.time()
+    #tart = time.time()
     ind = 0
     compare = meeting_times[0].intervals
     i = 0
@@ -62,7 +62,7 @@ def find_overlap(meeting_times):
             last_overlap = i
         i+=1
     #end = time.time()
-    return end-start
+    #return end-start
 
 def run():
     file = open("./test.txt")
@@ -78,11 +78,13 @@ def run():
         else:
             #tot_time = time.time()
             meeting_times.append(Person(temp))
-            tot_time = time.time()-tot_time
+            #tot_time = time.time()-tot_time
             temp = []
     # start = time.time()
     # meeting_times.append(Person(temp))
     # tot_time = time.time()-start
-    # tot_time+=find_overlap(meeting_times)
-    return tot_time
+    #tot_time+=find_overlap(meeting_times)
+    #return tot_time
+    find_overlap(meeting_times)
 #print(meeting_times[0].intervals,meeting_times[1].intervals)
+run()
