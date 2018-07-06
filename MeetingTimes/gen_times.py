@@ -1,6 +1,7 @@
 from random import randint
 import meetings
 import matplotlib.pyplot as plt
+import math
 def overlaps(a,b,max_overlap = False):
     max_end = max(a[1],b[1])
     min_end = min(a[1],b[1])
@@ -30,7 +31,7 @@ def merge_overlaps(a):
 
 def create(person,size):
     for i in range(0,size):
-        a = randint(randint(1,99900),100000)
+        a = randint(randint(1,9900),10000)
         b = randint(a+1,a+10)
         person.append((a,b))
     return person
@@ -45,7 +46,7 @@ def write(person,f):
 
 def get_time():
     f = open("test.txt","w")
-    sizes = [100,500,1000,2000,3000,4000,5000,6000,600,700,10000,50000,100000]
+    sizes = [100,200,300,400,500,1000,1500,2500,2000,3000,4000,5000,6000,600,700,10000,50000,100000]
     times = []
     for ci,i in enumerate(sizes):
 
@@ -59,12 +60,14 @@ def get_time():
         write(person1,f)
         write(person2,f)
         f.close()
-        sizes[ci] = len(person1+person2)
+        #sizes[ci] = math.log(len(person1)+len(person2))/math.log(2)
+        sizes[ci] = len(person1)+len(person1)
         t = 0.0
         x = []
-        for i in range(0,50):
-            x.append(meetings.run())
-            t+= x[i]
+        for i in range(0,10):
+            a = meetings.run()
+            x.append(a)
+            t+= a
         t/=len(x)
         #times.append(meetings.run())
         times.append(t)
