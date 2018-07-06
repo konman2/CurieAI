@@ -1,0 +1,7 @@
+.vscode
+settings.json
+*.txt
+*.pickle
+*.TextGrid
+*.wav
+*.ipynb
