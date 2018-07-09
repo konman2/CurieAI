@@ -5,3 +5,4 @@ settings.json
 *.TextGrid
 *.wav
 *.ipynb
+__pycache__
