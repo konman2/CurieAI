@@ -29,10 +29,9 @@ import sys
 import matplotlib.pyplot as plt
 
 
-def Testing(TextGrid, overlapFactor, sample_interval, predictions, desiredFs):
+def Testing(TextGrid, overlapFactor, sample_interval, predictions, desiredFs,for_pos=True):
 
     # read in the ground truth
-
     tg = TextGrid
     Labels_Time_Interval = tg.tiers
     sizeLabels = np.shape(Labels_Time_Interval)
@@ -40,12 +39,12 @@ def Testing(TextGrid, overlapFactor, sample_interval, predictions, desiredFs):
     endTimes = []
     TrueLabels = []
     groundinfo = []
+    test= []
     for i in range(0,sizeLabels[1]): #getting labeled data
         interval1 = Labels_Time_Interval[0][i]
         startTimes.append(float(interval1.start_time))
         endTimes.append(float(interval1.end_time))
         TrueLabels.append(interval1.text)
-        
         groundinfo.append([float(interval1.start_time),float(interval1.end_time)])
 
     #######
@@ -67,7 +66,7 @@ def Testing(TextGrid, overlapFactor, sample_interval, predictions, desiredFs):
     for i in range(len(predictions)):
             timeIndex  += int(sample_interval/overlapFactor)
             timeIndexB  = timeIndex + sample_interval
-            if predictions[i] ==True:    
-                predictedStmaps.append([(timeIndex)/desiredFs,(timeIndexB)/desiredFs])
-                
+            if predictions[i] == for_pos:    
+                predictedStmaps.append([round((timeIndex)/desiredFs,6),round((timeIndexB)/desiredFs,6)])
+    print() 
     return (predictedStmaps ,groundinfo)
