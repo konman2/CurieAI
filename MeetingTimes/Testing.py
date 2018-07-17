@@ -68,5 +68,4 @@ def Testing(TextGrid, overlapFactor, sample_interval, predictions, desiredFs,for
             timeIndexB  = timeIndex + sample_interval
             if predictions[i] == for_pos:    
                 predictedStmaps.append([round((timeIndex)/desiredFs,6),round((timeIndexB)/desiredFs,6)])
-    print() 
     return (predictedStmaps ,groundinfo)
